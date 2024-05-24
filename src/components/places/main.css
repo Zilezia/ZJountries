@@ -1,0 +1,31 @@
+.continents {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    padding: .75em;
+}
+
+.dont-display {
+    display: none;
+}
+
+.continent-name, .subregion-name, .p-name {
+    cursor: pointer;
+    text-decoration: underline;
+    display: inline-block;
+}
+
+.p-container {
+    width: 250px;
+}
+
+.p-code {
+    font-weight: normal;
+    font-size: .75em;
+}
+
+.p-flag {
+    height: 4.5em;
+}

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import './AllPlaces.css'
+import './main.css'
+import './screen_width.css'
 import PlaceInfo from './Place';
 
 interface PlacesByArea {
@@ -50,37 +51,38 @@ function AllPlaces() {
   return (
     <div className="earth">
       <h2>Earth:</h2>
-      <div className='continents'>
         {loading?(
           // if it is loading then yeah vvv
           <div className='loading-text'>Loading...</div>
-        ):(// and when it has stopped loading then give out all of the countries
-          // starting with by making continent containers
-          Object.keys(placesByArea).map((continent) => (
-            <div key={continent} id={continent.toLowerCase()} className='continent-container'>
-              <h2 className='continent-name'><span>{continent}:</span></h2>
-              {/* then inside the continent containers, regions inside the continent are made 
-                (e.g.: eastern, northern ... europe in Europe continent) */}
-              {Object.keys(placesByArea[continent]).map((subregion) => (
-                <div key={subregion} id={subregion.toLowerCase()} className='subregion-container'>
-                  {/* and if yeah there is no subregion show nothing */}
-                  {subregion=="undefined"?(''):(<h3 className='subregion-name'>{subregion}</h3>)}
-                  {/* and finally countries loaded, the way its loaded is:
-                          continent > subregion > country, e.g.:
-                            Europe  >  Central  > Poland
-                                       Europe*/}
-                  <div className="countries-container">
-                    {placesByArea[continent][subregion].map((placeName: string) => (
-                      <PlaceInfo key={placeName} placeName={placeName}/>
-                    ))}
+        ):(
+          // actual loaded countries:
+          <div className='continents'>
+          {Object.keys(placesByArea).map((continent) => (
+            <div className='PBA-continent'>
+              <h2 key={continent} className='continent-name'>{continent}:</h2>
+              <div className='continent-container ' key={continent} id={continent.toLowerCase()}>
+                {Object.keys(placesByArea[continent]).map((subregion) => (
+                  <div className='PBA-subregion'>
+                    {subregion=="undefined"?(''):(<h3 className='subregion-name'>{subregion}</h3>)}
+                    <div className='subregion-container dont-display' key={subregion} id={subregion.toLowerCase()}>
+                      <div className="countries-container">
+                        {placesByArea[continent][subregion].map((placeName: string) => (
+                          <PlaceInfo key={placeName} placeName={placeName}/>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          ))
+          ))}
+          </div>
         )}
       </div>
-    </div>
   )
 }
 export default AllPlaces;
+
+// taken out the notes cuz looks tbh messy for me
+
+// todo - in readme give the notes

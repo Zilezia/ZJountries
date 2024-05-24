@@ -62,9 +62,9 @@ const PlaceInfo: React.FC<{ placeName: string }> = ({ placeName }) => {
           <div className='loading-text'>Loading place...</div>
         ):(
           <div id={place.name} className='p-container'>
-            <h3 className='p-name'>
+            <h4 className='p-name'>
               {place.name} {place.flag} <span className='p-code'>{place.code}</span>
-            </h3>
+            </h4>
             <p className='p-continent'>Continent: {place.region}</p>
             {!place.subregion?(''):(<p className="p-region">Region: {place.subregion}</p>)}
             {place.capital=='N/A'?(''):(<p className='p-capital'>Capital: {place.capital}</p>)}
