@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import './AllWorld.css'
-import PlaceInfo from '../place/Place';
+import './AllPlaces.css'
+import PlaceInfo from './Place';
 
-interface placesByArea {
+interface PlacesByArea {
   [key: string]: {
     [key: string]: string[];
   };
 }
 
-function AllWorld() {
-  const [placesByArea, setPlacesByArea] = useState<placesByArea>({});
+function AllPlaces() {
+  const [placesByArea, setPlacesByArea] = useState<PlacesByArea>({});
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -20,7 +20,13 @@ function AllWorld() {
         setLoading(true);
         const response = await axios.get(`https://restcountries.com/v3.1/all`);
         const countries = response.data;
-        const categorisedCountries = countries.reduce((acc: { [x: string]: any[]; }, country: { region: any; subregion: any; name: { common: any; }; }) => {
+        const categorisedCountries = countries.reduce((
+          acc: { [x: string]: any[]; }, 
+          country: { 
+            region: any; 
+            subregion: any; 
+            name: { common: any; }; 
+        }) => {
           const continent = country.region;
           const subregion = country.subregion;
           if (!acc[continent]) {
@@ -45,7 +51,6 @@ function AllWorld() {
     <div className="earth">
       <h2>Earth:</h2>
       <div className='continents'>
-        {/* basically checks if its loading */}
         {loading?(
           // if it is loading then yeah vvv
           <div className='loading-text'>Loading...</div>
@@ -53,13 +58,13 @@ function AllWorld() {
           // starting with by making continent containers
           Object.keys(placesByArea).map((continent) => (
             <div key={continent} id={continent.toLowerCase()} className='continent-container'>
-              <h2>{continent}:</h2>
+              <h2 className='continent-name'><span>{continent}:</span></h2>
               {/* then inside the continent containers, regions inside the continent are made 
                 (e.g.: eastern, northern ... europe in Europe continent) */}
               {Object.keys(placesByArea[continent]).map((subregion) => (
                 <div key={subregion} id={subregion.toLowerCase()} className='subregion-container'>
                   {/* and if yeah there is no subregion show nothing */}
-                  {subregion=="undefined"?(''):(<h3>{subregion}</h3>)}
+                  {subregion=="undefined"?(''):(<h3 className='subregion-name'>{subregion}</h3>)}
                   {/* and finally countries loaded, the way its loaded is:
                           continent > subregion > country, e.g.:
                             Europe  >  Central  > Poland
@@ -78,4 +83,4 @@ function AllWorld() {
     </div>
   )
 }
-export default AllWorld;
+export default AllPlaces;

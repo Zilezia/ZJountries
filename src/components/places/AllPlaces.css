@@ -7,10 +7,6 @@
     padding: .75em;
 }
 
-.continent-container {
-    /* border: red solid 1px; */
-}
-
 .region-container {
     flex: 1 1;
 }
@@ -51,10 +47,21 @@
     }
 }
 
-.place-container {
+.continent-name, .subregion-name {
+    cursor: pointer;
+    text-decoration: underline;
+
+}
+
+.p-container {
     width: 250px;
 }
 
-.place-flag {
+.p-code {
+    font-weight: normal;
+    font-size: .75em;
+}
+
+.p-flag {
     height: 4.5em;
 }
