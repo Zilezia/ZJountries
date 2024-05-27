@@ -13,7 +13,7 @@ interface PlacesByArea {
 
 function AllPlaces() {
   const [placesByArea, setPlacesByArea] = useState<PlacesByArea>({});
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchAllPlaces = async () => {
@@ -48,9 +48,31 @@ function AllPlaces() {
     fetchAllPlaces();
   }, []);
 
+  const tellTheId = (event: React.MouseEvent<HTMLHeadingElement, MouseEvent>) => {
+    const target = event.target as HTMLElement;
+    console.log(target.className)
+  };
+
+  // appear / disappear things (temp.)
+  const [contIsActive, setContIsActive] = useState(false);
+  const continentVis = () => {
+    setContIsActive(current => !current);
+  };
+
+  const [subIsActive, setSubIsActive] = useState(false);
+  const subregionVis = () => {
+    setSubIsActive(current => !current);
+  };
+
   return (
-    <div className="earth">
-      <h2>Earth:</h2>
+    <>
+      <div className="earth">
+        <div className="btn-container">
+          <p>temp. buttons vvv</p> {/* as it reads */}
+          <button onClick={continentVis}>Continent</button>
+          <button onClick={subregionVis}>Subregion</button>
+        </div>
+        <h2 className='earth-text' onClick={continentVis}>Earth:</h2>
         {loading?(
           // if it is loading then yeah vvv
           <div className='loading-text'>Loading...</div>
@@ -59,12 +81,26 @@ function AllPlaces() {
           <div className='continents'>
           {Object.keys(placesByArea).map((continent) => (
             <div className='PBA-continent'>
-              <h2 key={continent} className='continent-name'>{continent}:</h2>
-              <div className='continent-container ' key={continent} id={continent.toLowerCase()}>
+              <h2 
+                className='continent-name'
+                id={continent.toLowerCase()}
+                onClick={tellTheId}
+              >
+                {continent}:
+              </h2>
+              <div 
+                className={`continent-container ${contIsActive?'hidden':''}`} 
+                key={continent}
+                id={continent.toLowerCase()}
+              >
                 {Object.keys(placesByArea[continent]).map((subregion) => (
                   <div className='PBA-subregion'>
                     {subregion=="undefined"?(''):(<h3 className='subregion-name'>{subregion}</h3>)}
-                    <div className='subregion-container dont-display' key={subregion} id={subregion.toLowerCase()}>
+                    <div 
+                      key={subregion} 
+                      className={`subregion-container ${subIsActive?'hidden':''}`}
+                      id={subregion.toLowerCase()}
+                    >
                       <div className="countries-container">
                         {placesByArea[continent][subregion].map((placeName: string) => (
                           <PlaceInfo key={placeName} placeName={placeName}/>
@@ -79,6 +115,7 @@ function AllPlaces() {
           </div>
         )}
       </div>
+    </>
   )
 }
 export default AllPlaces;
