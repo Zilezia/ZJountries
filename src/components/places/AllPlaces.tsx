@@ -31,7 +31,8 @@ function AllPlaces() {
             subregion: any; 
             name: { common: any; }; 
         }) => {
-          const continent = country.continents?.[0];
+          // const continent = country.continents?.[0];
+          const continent = country.region;
           const subregion = country.subregion;
           if (!acc[continent]) {
             acc[continent] = [];
@@ -63,15 +64,15 @@ function AllPlaces() {
     }
   };
   // this needs to be worked on vvv
-  const [activeSubregion, setActiveSubregion] = useState('');
-  const showThisSubregion = (event: React.MouseEvent<HTMLHeadingElement, MouseEvent>) => {
-    const target = event.target as HTMLElement;
-    if (activeContinent === target.id) {
-      setActiveSubregion('');
-    } else {
-      setActiveSubregion(target.id);
-    }
-  };
+  // const [activeSubregion, setActiveSubregion] = useState('');
+  // const showThisSubregion = (event: React.MouseEvent<HTMLHeadingElement, MouseEvent>) => {
+  //   const target = event.target as HTMLElement;
+  //   if (activeContinent === target.id) {
+  //     setActiveSubregion('');
+  //   } else {
+  //     setActiveSubregion(target.id);
+  //   }
+  // };
 
   // appear / disappear things (temp.)
   // const [contIsActive, setContIsActive] = useState(false);
@@ -100,7 +101,13 @@ function AllPlaces() {
           // actual loaded countries:
           <div className='continents'>
           {Object.keys(placesByArea).map((continent) => (
-            <div className='PBA-continent'>
+            <div className={`
+              PBA-continent 
+              ${
+                activeContinent !== '' && 
+                activeContinent !== continent.toLowerCase()?'hidden':''
+              }
+            `}>
               <h2 
                 className='continent-name'
                 id={continent.toLowerCase()}
@@ -109,20 +116,17 @@ function AllPlaces() {
                 {continent}:
               </h2>
               <div 
-                className={`
-                  continent-container
-                  ${activeContinent !== '' && activeContinent !== continent.toLowerCase()?'hidden':''}
-                `} 
+                className='continent-container'
                 key={continent}
                 id={continent.toLowerCase()}
               >
                 {Object.keys(placesByArea[continent]).map((subregion) => (
                   <div className='PBA-subregion'>
-                  {subregion=="undefined" || subregion=='South America'?(''):(
+                  {subregion=="undefined"?(''):(
                     <h3 
                       className='subregion-name'
                       id={subregion.toLowerCase()}
-                      onClick={showThisSubregion}
+                      // onClick={showThisSubregion}
                     >
                       {subregion}:
                     </h3>)}
@@ -130,8 +134,8 @@ function AllPlaces() {
                       key={subregion} 
                       className={`
                         subregion-container
-                        ${activeSubregion !== '' && activeSubregion !== subregion.toLowerCase()?'hidden':''}
                       `}
+                        // ${activeSubregion !== '' && activeSubregion !== subregion.toLowerCase()?'hidden':''}
                       id={subregion.toLowerCase()}
                     >
                       <div className="countries-container">
