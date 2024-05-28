@@ -12,6 +12,8 @@ interface PlacesByArea {
 }
 
 function AllPlaces() {
+  // All the loading part, thinking about seperating this code with 
+  // the lower one that just hides or displays the countries
   const [placesByArea, setPlacesByArea] = useState<PlacesByArea>({});
   const [loading, setLoading] = useState(true);
 
@@ -48,31 +50,33 @@ function AllPlaces() {
     fetchAllPlaces();
   }, []);
 
+  // test
+  const [activeContinent, setActiveContinent] = useState('');
   const tellTheId = (event: React.MouseEvent<HTMLHeadingElement, MouseEvent>) => {
     const target = event.target as HTMLElement;
-    console.log(target.className)
+    setActiveContinent(target.id);
   };
 
   // appear / disappear things (temp.)
-  const [contIsActive, setContIsActive] = useState(false);
-  const continentVis = () => {
-    setContIsActive(current => !current);
-  };
+  // const [contIsActive, setContIsActive] = useState(false);
+  // const continentVis = () => {
+  //   setContIsActive(current => !current);
+  // };
 
-  const [subIsActive, setSubIsActive] = useState(false);
-  const subregionVis = () => {
-    setSubIsActive(current => !current);
-  };
+  // const [subIsActive, setSubIsActive] = useState(false);
+  // const subregionVis = () => {
+  //   setSubIsActive(current => !current);
+  // };
 
   return (
     <>
       <div className="earth">
         <div className="btn-container">
           <p>temp. buttons vvv</p> {/* as it reads */}
-          <button onClick={continentVis}>Continent</button>
-          <button onClick={subregionVis}>Subregion</button>
+          {/* <button onClick={continentVis}>Continent</button> */}
+          {/* <button onClick={subregionVis}>Subregion</button> */}
         </div>
-        <h2 className='earth-text' onClick={continentVis}>Earth:</h2>
+        {/* <h2 className='earth-text' onClick={continentVis}>Earth:</h2> */}
         {loading?(
           // if it is loading then yeah vvv
           <div className='loading-text'>Loading...</div>
@@ -89,16 +93,26 @@ function AllPlaces() {
                 {continent}:
               </h2>
               <div 
-                className={`continent-container ${contIsActive?'hidden':''}`} 
+                className={`
+                  continent-container
+                  ${activeContinent !== continent.toLowerCase()?'hidden':''}
+                `} 
                 key={continent}
                 id={continent.toLowerCase()}
               >
                 {Object.keys(placesByArea[continent]).map((subregion) => (
                   <div className='PBA-subregion'>
-                    {subregion=="undefined"?(''):(<h3 className='subregion-name'>{subregion}</h3>)}
+                    {subregion=="undefined"?(''):(
+                    <h3 
+                      className='subregion-name'
+                      id={subregion.toLowerCase()}
+                      onClick={tellTheId}
+                    >
+                      {subregion}:
+                    </h3>)}
                     <div 
                       key={subregion} 
-                      className={`subregion-container ${subIsActive?'hidden':''}`}
+                      className={`subregion-container`}
                       id={subregion.toLowerCase()}
                     >
                       <div className="countries-container">
