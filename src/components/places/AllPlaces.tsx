@@ -52,9 +52,23 @@ function AllPlaces() {
 
   // test
   const [activeContinent, setActiveContinent] = useState('');
-  const tellTheId = (event: React.MouseEvent<HTMLHeadingElement, MouseEvent>) => {
+  const showThisContinent = (event: React.MouseEvent<HTMLHeadingElement, MouseEvent>) => {
     const target = event.target as HTMLElement;
-    setActiveContinent(target.id);
+    if (activeContinent === target.id) {
+      setActiveContinent('');
+    } else {
+      setActiveContinent(target.id);
+    }
+  };
+
+  const [activeSubregion, setActiveSubregion] = useState('');
+  const showThisSubregion = (event: React.MouseEvent<HTMLHeadingElement, MouseEvent>) => {
+    const target = event.target as HTMLElement;
+    if (activeContinent === target.id) {
+      setActiveSubregion('');
+    } else {
+      setActiveSubregion(target.id);
+    }
   };
 
   // appear / disappear things (temp.)
@@ -88,14 +102,14 @@ function AllPlaces() {
               <h2 
                 className='continent-name'
                 id={continent.toLowerCase()}
-                onClick={tellTheId}
+                onClick={showThisContinent}
               >
                 {continent}:
               </h2>
               <div 
                 className={`
                   continent-container
-                  ${activeContinent !== continent.toLowerCase()?'hidden':''}
+                  ${activeContinent !== '' && activeContinent !== continent.toLowerCase()?'hidden':''}
                 `} 
                 key={continent}
                 id={continent.toLowerCase()}
@@ -106,13 +120,16 @@ function AllPlaces() {
                     <h3 
                       className='subregion-name'
                       id={subregion.toLowerCase()}
-                      onClick={tellTheId}
+                      onClick={showThisSubregion}
                     >
                       {subregion}:
                     </h3>)}
                     <div 
                       key={subregion} 
-                      className={`subregion-container`}
+                      className={`
+                        subregion-container
+                        ${activeSubregion !== '' && activeSubregion !== subregion.toLowerCase()?'hidden':''}
+                      `}
                       id={subregion.toLowerCase()}
                     >
                       <div className="countries-container">
