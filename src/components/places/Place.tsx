@@ -4,6 +4,7 @@ import axios from 'axios';
 interface Place {
     name: string;
     code: string;
+    continent: string;
     region: string;
     subregion: string;
     
@@ -32,6 +33,7 @@ const PlaceInfo: React.FC<{ placeName: string }> = ({ placeName }) => {
           setPlace({
             name: data.name.common,
             code: data.cca2,
+            continent: data.continents?.[0], 
             region: data.region,
             subregion: data.subregion,
             
@@ -65,7 +67,7 @@ const PlaceInfo: React.FC<{ placeName: string }> = ({ placeName }) => {
             <h4 className='p-name'>
               {place.name} {place.flag} <span className='p-code'>{place.code}</span>
             </h4>
-            <p className='p-continent'>Continent: {place.region}</p>
+            <p className='p-continent'>Continent: {place.continent}</p>
             {!place.subregion?(''):(<p className="p-region">Region: {place.subregion}</p>)}
             {place.capital=='N/A'?(''):(<p className='p-capital'>Capital: {place.capital}</p>)}
             {place.population==0?(''):(<p className='p-pop'>Population: {formatNumber(place.population)}</p>)}

@@ -26,11 +26,12 @@ function AllPlaces() {
         const categorisedCountries = countries.reduce((
           acc: { [x: string]: any[]; }, 
           country: { 
-            region: any; 
+            continents: { 0: any; };
+            region: any;
             subregion: any; 
             name: { common: any; }; 
         }) => {
-          const continent = country.region;
+          const continent = country.continents?.[0];
           const subregion = country.subregion;
           if (!acc[continent]) {
             acc[continent] = [];
@@ -51,6 +52,7 @@ function AllPlaces() {
   }, []);
 
   // test
+  // its pretty ok atm, .css needs to be updated cuz its still pretty ass
   const [activeContinent, setActiveContinent] = useState('');
   const showThisContinent = (event: React.MouseEvent<HTMLHeadingElement, MouseEvent>) => {
     const target = event.target as HTMLElement;
@@ -60,7 +62,7 @@ function AllPlaces() {
       setActiveContinent(target.id);
     }
   };
-
+  // this needs to be worked on vvv
   const [activeSubregion, setActiveSubregion] = useState('');
   const showThisSubregion = (event: React.MouseEvent<HTMLHeadingElement, MouseEvent>) => {
     const target = event.target as HTMLElement;
@@ -116,7 +118,7 @@ function AllPlaces() {
               >
                 {Object.keys(placesByArea[continent]).map((subregion) => (
                   <div className='PBA-subregion'>
-                    {subregion=="undefined"?(''):(
+                  {subregion=="undefined" || subregion=='South America'?(''):(
                     <h3 
                       className='subregion-name'
                       id={subregion.toLowerCase()}
