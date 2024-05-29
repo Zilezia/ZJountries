@@ -32,10 +32,12 @@
     height: 4.5em;
 }
 
-.PBA-continent {
+.PBA-continent, .PBA-subregion {
     width: 275px;
 }
 
 .one-back {
-    text-decoration: none;
+    font-size: larger;
+    font-weight: bold;
+    cursor: pointer;
 }
