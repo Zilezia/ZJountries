@@ -5,7 +5,7 @@
     display: inline-block;
 }
 
-.continents {
+.continents, .display-subregions {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -15,10 +15,6 @@
 
 .hidden {
     display: none;
-}
-
-.PBA-continent {
-    width: 300px;
 }
 
 .earth-text, .continent-name, .subregion-name, .p-name {
@@ -34,4 +30,12 @@
 
 .p-flag {
     height: 4.5em;
+}
+
+.PBA-continent {
+    width: 275px;
+}
+
+.one-back {
+    text-decoration: none;
 }

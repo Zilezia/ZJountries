@@ -52,17 +52,6 @@ function AllPlaces() {
     fetchAllPlaces();
   }, []);
 
-  // test
-  // its pretty ok atm, .css needs to be updated cuz its still pretty ass
-  const [activeContinent, setActiveContinent] = useState('');
-  const showThisContinent = (event: React.MouseEvent<HTMLHeadingElement, MouseEvent>) => {
-    const target = event.target as HTMLElement;
-    if (activeContinent === target.id) {
-      setActiveContinent('');
-    } else {
-      setActiveContinent(target.id);
-    }
-  };
   // this needs to be worked on vvv
   // const [activeSubregion, setActiveSubregion] = useState('');
   // const showThisSubregion = (event: React.MouseEvent<HTMLHeadingElement, MouseEvent>) => {
@@ -85,75 +74,94 @@ function AllPlaces() {
   //   setSubIsActive(current => !current);
   // };
 
-  return (
-    <>
-      <div className="earth">
-        <div className="btn-container">
-          <p>temp. buttons vvv</p> {/* as it reads */}
-          {/* <button onClick={continentVis}>Continent</button> */}
-          {/* <button onClick={subregionVis}>Subregion</button> */}
-        </div>
-        {/* <h2 className='earth-text' onClick={continentVis}>Earth:</h2> */}
-        {loading?(
-          // if it is loading then yeah vvv
-          <div className='loading-text'>Loading...</div>
-        ):(
-          // actual loaded countries:
-          <div className='continents'>
-          {Object.keys(placesByArea).map((continent) => (
-            <div className={`
-              PBA-continent 
-              ${
-                activeContinent !== '' && 
-                activeContinent !== continent.toLowerCase()?'hidden':''
+  // test
+  // its pretty ok atm, .css needs to be updated cuz its still pretty ass
+  const [activeContinent, setActiveContinent] = useState('');
+  const showThisContinent = (event: React.MouseEvent<HTMLHeadingElement, MouseEvent>) => {
+    const target = event.target as HTMLElement;
+    if (activeContinent === target.id) {
+      setActiveContinent('');
+    } else {
+      setActiveContinent(target.id);
+    }
+  };
+
+  return (<>
+    <div className="earth">
+      <div className="btn-container">
+        <p>temp. buttons vvv</p> {/* as it reads */}
+        {/* <button onClick={continentVis}>Continent</button> */}
+        {/* <button onClick={subregionVis}>Subregion</button> */}
+      </div>
+      {/* <h2 className='earth-text' onClick={continentVis}>Earth:</h2> */}
+      {loading?(
+        // if it is loading then yeah vvv
+        <div className='loading-text'>Loading...</div>
+      ):(
+        // actual loaded countries:
+        <div className='continents'>
+        {Object.keys(placesByArea).map((continent) => (
+          <div className={`
+            ${activeContinent !== continent.toLowerCase()?'PBA-continent':''}
+            ${
+              activeContinent !== '' && 
+              activeContinent !== continent.toLowerCase()?'hidden':''
+            }
+          `}>
+            <div onClick={showThisContinent}>
+              {
+                activeContinent == continent.toLowerCase()
+                  ? <span>&lt; </span>
+                  :''
               }
-            `}>
-              <h2 
+              <h2
                 className='continent-name'
                 id={continent.toLowerCase()}
-                onClick={showThisContinent}
               >
                 {continent}:
               </h2>
-              <div 
-                className='continent-container'
-                key={continent}
-                id={continent.toLowerCase()}
-              >
-                {Object.keys(placesByArea[continent]).map((subregion) => (
-                  <div className='PBA-subregion'>
-                  {subregion=="undefined"?(''):(
-                    <h3 
-                      className='subregion-name'
-                      id={subregion.toLowerCase()}
-                      // onClick={showThisSubregion}
-                    >
-                      {subregion}:
-                    </h3>)}
-                    <div 
-                      key={subregion} 
-                      className={`
-                        subregion-container
-                      `}
-                        // ${activeSubregion !== '' && activeSubregion !== subregion.toLowerCase()?'hidden':''}
-                      id={subregion.toLowerCase()}
-                    >
-                      <div className="countries-container">
-                        {placesByArea[continent][subregion].map((placeName: string) => (
-                          <PlaceInfo key={placeName} placeName={placeName}/>
-                        ))}
-                      </div>
+            </div>
+            <div 
+              key={continent}
+              id={continent.toLowerCase()}
+              className={`
+                continent-container
+                ${activeContinent == continent.toLowerCase()?'display-subregions':''}
+              `}
+            >
+              {Object.keys(placesByArea[continent]).map((subregion) => (
+                <div className='PBA-subregion'>
+                {subregion=="undefined"?(''):(
+                  <h3 
+                    className='subregion-name'
+                    id={subregion.toLowerCase()}
+                    // onClick={showThisSubregion}
+                  >
+                    {subregion}:
+                  </h3>)}
+                  <div 
+                    key={subregion} 
+                    className={`
+                      subregion-container
+                    `}
+                      // ${activeSubregion !== '' && activeSubregion !== subregion.toLowerCase()?'hidden':''}
+                    id={subregion.toLowerCase()}
+                  >
+                    <div className="countries-container">
+                      {placesByArea[continent][subregion].map((placeName: string) => (
+                        <PlaceInfo key={placeName} placeName={placeName}/>
+                      ))}
                     </div>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
-          ))}
           </div>
-        )}
-      </div>
-    </>
-  )
+        ))}
+        </div>
+      )}
+    </div>
+  </>)
 }
 export default AllPlaces;
 
