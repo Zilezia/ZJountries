@@ -16,11 +16,7 @@ function AllPlaces() {
   // the lower one that just hides or displays the countries
   const [placesByArea, setPlacesByArea] = useState<PlacesByArea>({});
   const [loading, setLoading] = useState(true);
-  const [IDs, setIDs] = useState<{ continents: {[key: string]: string}; subregions: {[key: string]: string} }>({
-    continents: {},
-    subregions: {},
-  });
-
+  
   useEffect(() => {
     const fetchAllPlaces = async () => {
       try {
@@ -48,19 +44,7 @@ function AllPlaces() {
           return acc;
         }, {});
 
-        const continentIDs: {[key: string]: string } = {};
-        const subregionIDs: {[key: string]: string } = {};
-        for (const continent in categorisedCountries) {
-          const continentID = continent.toLowerCase()
-          continentIDs[continent] = continentID;
-          for (const subregion in categorisedCountries[continent]) {
-            const subregionID = subregion.toLowerCase().replace(/ /g, '_');
-            subregionIDs[subregion] = subregionID;
-          }
-        }
-
         setPlacesByArea(categorisedCountries);
-        setIDs({ continents: continentIDs, subregions: subregionIDs });
         setLoading(false);
       } catch (error){
         setLoading(false);
@@ -120,26 +104,54 @@ return (<>
         <div className='continents'>
         {Object.keys(placesByArea).map((continent) => (
           <div className={`
-            ${activeContinent !== continent.toLowerCase()?'PBA-continent':''}
-            ${activeContinent !== '' && activeContinent !== continent.toLowerCase()?'hidden':''}
+            ${activeContinent !== continent?'PBA-continent':''}
+            ${activeContinent !== '' && activeContinent !== continent?'hidden':''}
           `}>
             <div>
-              {activeContinent == continent.toLowerCase() ? <span className='one-back' onClick={showThisContinent}>&lt; </span> : ''}
-              <h2 className='continent-name' id={IDs.continents[continent]} onClick={showThisContinent}>{continent}:</h2>
+              {activeContinent === continent?<span className='one-back' onClick={showThisContinent}>&lt; </span>:''}
+              <h2 className='continent-name' id={continent} onClick={showThisContinent}>{continent}:</h2>
             </div>
-            <div key={continent} id={IDs.continents[continent]} className={`continent-container ${activeContinent == continent.toLowerCase()?'display-subregions':''}`}>
+            <div 
+              key={continent} 
+              id={continent}
+              className={`
+                continent-container 
+                ${activeContinent === continent?'display-subregions':'hidden'}
+              `}
+            >
               {Object.keys(placesByArea[continent]).map((subregion) => (
                 <div className={`
-                  ${activeSubregion !== continent.toLowerCase()?'PBA-subregion':''}
-                  ${activeSubregion !== '' &&activeSubregion !== continent.toLowerCase()?'hidden':''}
+                  ${activeContinent === continent
+                    ?(activeSubregion !== subregion.replace(/ /g, '_')?'PBA-subregion':'')
+                    :''
+                  }
+                  ${
+                    activeContinent !== continent &&
+                    activeSubregion !== '' &&
+                    activeSubregion !== subregion.replace(/ /g, '_')
+                    ?'hidden':''
+                  }
                 `}>
-                {subregion!=="undefined"?(<h3 className='subregion-name' id={IDs.subregions[subregion]} onClick={showThisSubregion}>{subregion}:</h3>):('')}
+                {subregion!=="undefined"?(
+                  <div>
+                    {activeSubregion === subregion.replace(/ /g, '_')?<span className='one-back' onClick={showThisSubregion}>&lt; </span>:''}
+                    <h3 className='subregion-name' id={subregion.replace(/ /g, '_')} onClick={showThisSubregion}>{subregion}:</h3>
+                  </div>
+                ):''}
                   <div 
                     key={subregion} 
-                    id={IDs.subregions[subregion]}
-                    className={`subregion-container ${activeSubregion !== '' && activeSubregion !== subregion.toLowerCase()?'hidden':''}`}
+                    id={subregion.replace(/ /g, '_')}
+                    className={`subregion-container 
+                      ${
+                        activeSubregion !== '' &&
+                        activeSubregion !== subregion.replace(/ /g, '_')?'hidden':''
+                      }
+                    `}
                   >
-                    <div className="countries-container">
+                    <div className={`
+                      countries-container
+                      ${activeSubregion === subregion.replace(/ /g, '_')?'display-places':'hidden'}
+                    `}>
                       {placesByArea[continent][subregion].map((placeName: string) => (
                         <PlaceInfo key={placeName} placeName={placeName}/>
                       ))}
@@ -159,4 +171,6 @@ export default AllPlaces;
 
 // taken out the notes cuz looks tbh messy for me
 
-// todo - in readme give the notes
+// todo - 
+  // in readme give the notes
+  // actually im not sure about that ^^^

@@ -5,7 +5,7 @@
     display: inline-block;
 }
 
-.continents, .display-subregions {
+.continents, .display-subregions, .display-places {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -32,7 +32,7 @@
     height: 4.5em;
 }
 
-.PBA-continent, .PBA-subregion {
+.PBA-continent, .PBA-subregion, .p-container {
     width: 275px;
 }
 
