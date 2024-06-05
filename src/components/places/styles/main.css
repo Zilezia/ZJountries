@@ -1,3 +1,6 @@
+.hidden {
+    display: none;
+}
 .earth {
     display: flex;
     flex-direction: column;
@@ -13,8 +16,8 @@
     padding: .75em;
 }
 
-.hidden {
-    display: none;
+.continents {
+    border: 1px solid red;
 }
 
 .earth-text, .continent-name, .subregion-name, .p-name {

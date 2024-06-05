@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import './main.css'
-import './screen_width.css'
+import './styles';
 import PlaceInfo from './Place';
 
 interface PlacesByArea {
@@ -66,19 +65,21 @@ function AllPlaces() {
 
 
   // test
-  // its pretty ok atm, .css needs to be updated cuz its still pretty ass
+  // its pretty ok atm, .css needs to be updated doing animations cuz its still pretty ass staticy
   const [activeContinent, setActiveContinent] = useState('');
+  const [activeSubregion, setActiveSubregion] = useState('');
+
   const showThisContinent = (event: React.MouseEvent<HTMLHeadingElement, MouseEvent>) => {
     const target = event.target as HTMLElement;
     if (activeContinent === target.id) {
       setActiveContinent('');
+      setActiveSubregion('');
     } else {
       setActiveContinent(target.id);
+      setActiveSubregion('');
     }
   };
 
-  // this needs to be worked on vvv
-  const [activeSubregion, setActiveSubregion] = useState('');
   const showThisSubregion = (event: React.MouseEvent<HTMLHeadingElement, MouseEvent>) => {
     const target = event.target as HTMLElement;
     if (activeSubregion === target.id) {
@@ -88,7 +89,7 @@ function AllPlaces() {
     }
   };
 
-return (<>
+  return (<>
     <div className="earth">
       <div className="btn-container">
         <p>temp. buttons vvv</p> {/* as it reads */}
@@ -104,11 +105,11 @@ return (<>
         <div className='continents'>
         {Object.keys(placesByArea).map((continent) => (
           <div className={`
-            ${activeContinent !== continent?'PBA-continent':''}
+            ${!activeContinent && 'PBA-continent'} 
             ${activeContinent !== '' && activeContinent !== continent?'hidden':''}
           `}>
-            <div>
-              {activeContinent === continent?<span className='one-back' onClick={showThisContinent}>&lt; </span>:''}
+            <div className='name-container'>
+              {activeContinent && <span className='one-back' onClick={showThisContinent}>&lt; </span>}
               <h2 className='continent-name' id={continent} onClick={showThisContinent}>{continent}:</h2>
             </div>
             <div 
@@ -121,13 +122,10 @@ return (<>
             >
               {Object.keys(placesByArea[continent]).map((subregion) => (
                 <div className={`
-                  ${activeContinent === continent
-                    ?(activeSubregion !== subregion.replace(/ /g, '_')?'PBA-subregion':'')
-                    :''
-                  }
+                  ${(activeContinent && activeContinent !== 'Antarctic') && (activeSubregion !== subregion.replace(/ /g, '_')?'PBA-subregion':'')}
                   ${
-                    activeContinent !== continent &&
-                    activeSubregion !== '' &&
+                    !activeContinent &&
+                    !activeSubregion &&
                     activeSubregion !== subregion.replace(/ /g, '_')
                     ?'hidden':''
                   }
@@ -143,14 +141,15 @@ return (<>
                     id={subregion.replace(/ /g, '_')}
                     className={`subregion-container 
                       ${
-                        activeSubregion !== '' &&
+                        !activeSubregion &&
+                        activeContinent === 'Antartic' &&
                         activeSubregion !== subregion.replace(/ /g, '_')?'hidden':''
                       }
                     `}
                   >
                     <div className={`
                       countries-container
-                      ${activeSubregion === subregion.replace(/ /g, '_')?'display-places':'hidden'}
+                      ${activeContinent === 'Antarctic' ? ('display-places') : (activeSubregion === subregion.replace(/ /g, '_')?'display-places':'hidden')}
                     `}>
                       {placesByArea[continent][subregion].map((placeName: string) => (
                         <PlaceInfo key={placeName} placeName={placeName}/>
@@ -174,3 +173,4 @@ export default AllPlaces;
 // todo - 
   // in readme give the notes
   // actually im not sure about that ^^^
+  // yeah not the readme but the wiki tab (i just discovered that recently lol)
