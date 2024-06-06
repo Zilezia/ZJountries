@@ -2,7 +2,7 @@ import AllPlaces from "./components/places/AllPlaces";
 
 const routes = [
     {
-        path: '/world-places/',
+        path: '/zjountries/',
         element: <AllPlaces />
     },
     
