@@ -1,0 +1,46 @@
+.hidden {
+    display: none;
+}
+.earth {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    display: inline-block;
+}
+
+.continents, .display-subregions, .display-places {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: .75em;
+}
+
+.continents {
+    border: 1px solid red;
+}
+
+.earth-text, .continent-name, .subregion-name, .p-name {
+    cursor: pointer;
+    text-decoration: underline;
+    display: inline-block;
+}
+
+.p-code {
+    font-weight: normal;
+    font-size: .75em;
+}
+
+.p-flag {
+    height: 4.5em;
+}
+
+.PBA-continent, .PBA-subregion, .p-container {
+    width: 275px;
+}
+
+.one-back {
+    font-size: larger;
+    font-weight: bold;
+    cursor: pointer;
+}
