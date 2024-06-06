@@ -1,0 +1,39 @@
+.region-container {
+    flex: 1 1;
+}
+
+@media (max-width: 1800px) {
+    .region-container {
+        flex: 1 1 17%;
+    }
+}
+
+@media (max-width: 1500px) {
+    .region-container {
+        flex: 1 1 34%;
+    }
+}
+
+@media (max-width: 1200px) {
+    .region-container {
+        flex: 1 1 51%;
+    }
+}
+
+@media (max-width: 900px) {
+    .region-container {
+        flex: 1 1 68%;
+    }
+}
+
+@media (max-width: 600px) {
+    .region-container {
+        flex: 1 1 85%;
+    }
+}
+
+@media (max-width: 300px) {
+    .region-container {
+        flex: 1 1 100%;
+    }
+}
