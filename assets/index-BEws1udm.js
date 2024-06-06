@@ -83,4 +83,4 @@ Error generating stack: `+o.message+`
                     `,children:O.jsx("div",{className:`
                       countries-container
                       ${l==="Antarctic"||i===c.replace(/ /g,"_")?"display-places":"hidden"}
-                    `,children:e[d][c].map(m=>O.jsx(E0,{placeName:m},m))})},c)]}))},d)]}))})]})})}const x0=[{path:"/zjountries/",element:O.jsx(k0,{})}];function C0(){return O.jsxs(O.Fragment,{children:[O.jsx(om,{}),O.jsx("main",{className:"main-container",children:O.jsx(tm,{children:x0.map((e,t)=>O.jsx(kf,{path:e.path,element:e.element},t))})})]})}Po.createRoot(document.getElementById("root")).render(O.jsx(ca.StrictMode,{children:O.jsx(lm,{children:O.jsx(C0,{})})}));
+                    `,children:e[d][c].map(m=>O.jsx(E0,{placeName:m},m))})},c)]}))},d)]}))})]})})}const x0=[{path:"/ZJountries/",element:O.jsx(k0,{})}];function C0(){return O.jsxs(O.Fragment,{children:[O.jsx(om,{}),O.jsx("main",{className:"main-container",children:O.jsx(tm,{children:x0.map((e,t)=>O.jsx(kf,{path:e.path,element:e.element},t))})})]})}Po.createRoot(document.getElementById("root")).render(O.jsx(ca.StrictMode,{children:O.jsx(lm,{children:O.jsx(C0,{})})}));
