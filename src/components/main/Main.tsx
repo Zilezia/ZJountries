@@ -1,8 +1,8 @@
 function Main() {
   return (
     <header className='main-top'>
-      <p>Yeah atm the api stopped working</p>
-      <p>working on my own now!</p>
+      <p>working on my own api</p>
+      <p>the one used currently works funny</p>
     </header>
   )
 }
