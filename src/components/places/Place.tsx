@@ -33,7 +33,7 @@ const PlaceInfo: React.FC<{ placeName: string }> = ({ placeName }) => {
           setPlace({
             name: data.name.common,
             code: data.cca2,
-            continent: data.continents?.[0], 
+            continent: data.continents, 
             region: data.region,
             subregion: data.subregion,
             
